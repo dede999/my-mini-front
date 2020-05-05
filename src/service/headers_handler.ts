@@ -23,3 +23,7 @@ export const get_headers = () => {
 export const set_access_token = (token: string) => {
   localStorage.setItem("accessToken", token)
 }
+
+export const is_logged = () => {
+  return !!localStorage.getItem("uid")
+}
