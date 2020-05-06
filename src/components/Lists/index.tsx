@@ -28,7 +28,6 @@ export default class Lists extends Component<{}, any>{
 
   render() {
     return <div>
-      Hi !!
       <ShowLists lists={this.state.favorites} title="Followed"/>
       <ShowLists lists={this.state.all} title="All Lists" />
     </div>

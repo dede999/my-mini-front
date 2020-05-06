@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import "./styles.sass"
 
 interface List {
   id: number,
@@ -19,9 +20,11 @@ export default class ShowLists extends Component<Props, any>{
     const { lists, title } = this.props
 
     return (
-      <div>
-        <h2> { title } </h2>
-        { lists.map((list: List) => <p> { list.title } </p>) }
+      <div className="show-lists">
+        <h1 className="divider line glow"> { title } </h1>
+        <div className="container">
+          { lists.map((list: List) => <p> { list.title } </p>) }
+        </div>
       </div>
     )
   }
