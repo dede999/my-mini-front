@@ -11,3 +11,30 @@ body
 
 code
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace
+
+
+// Base Divider class
+.divider
+  display: flex
+  &:before, &:after
+    content: ""
+    flex: 1
+
+// Base line
+.line
+  align-items: center
+  margin: 1em -1em
+
+  &:before, &:after
+    height: 1px
+    margin: 0 1em
+
+.glow
+  &:before, &:after
+    height: 5px
+    -webkit-filter: blur(5px)
+    border-radius: 5px
+  &:before
+    background: linear-gradient(to right, $lighter, $main)
+  &:after
+    background: linear-gradient(to left, $lighter, $main)
