@@ -28,7 +28,7 @@ export default class SignUp extends Component<{}, FormState> {
     return (
       <div className="root">
         <div className="container">
-          <h2 className="title"> Sing Up </h2>
+          <h2 className="title"> Sign Up </h2>
           <div className="form">
             <TextInput placeholder="Email" className="formField"
                        onChange={(e: any) => this.setState({ email: e.target.value})} />
