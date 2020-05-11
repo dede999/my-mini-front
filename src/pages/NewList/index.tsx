@@ -1,9 +1,7 @@
 import "./style.sass"
 import React, { Component } from "react"
-import { Switch } from "evergreen-ui"
-// import { Button } from "semantic-ui-react"
-import { InputBase, Button } from "@material-ui/core"
 import SaveIcon from "@material-ui/icons/Save"
+import { InputBase, Button } from "@material-ui/core"
 
 interface Task {
   title: string,
