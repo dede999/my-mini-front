@@ -1,4 +1,4 @@
-$main: hsl(210, 80%, 20%)
+@import ../../index
 
 .nav-bar
   background-color: $main
@@ -7,9 +7,24 @@ $main: hsl(210, 80%, 20%)
   display: flex
   justify-content: space-between
   height: 105px
-  h1
-    margin-left: 12px
-    align-self: center
+  .title
+    display: flex
+    h1
+      margin-left: 12px
+      align-self: center
+      #main_title
+        text-decoration: none
+        color: white
+        font-size: larger
+    button
+      align-self: center
+      font-size: smaller
+      height: 25px
+      width: 80px
+      margin-left: 10px
+      a
+        color: white
+        text-decoration: none
   #client
     align-self: center
     display: flex

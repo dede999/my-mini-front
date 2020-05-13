@@ -1,8 +1,9 @@
-import React, {Component} from "react"
-import { TextInput } from "evergreen-ui"
-import {clear_headers, save_headers} from '../../service/headers_handler'
-import api from "../../service/api"
 import './style.sass'
+import api from "../../service/api"
+import React, {Component} from "react"
+import { Link } from 'react-router-dom'
+import { TextInput } from "evergreen-ui"
+import {clear_headers, save_headers, is_logged} from '../../service/headers_handler'
 
 type AuthHeaders = {
   uid: string | null,
@@ -23,8 +24,8 @@ export default class NavBar extends Component<{}, Props> {
       client: localStorage.getItem("client"),
       accessToken: localStorage.getItem("accessToken"),
     },
-    email: 'Email',
-    password: 'Password'
+    email: "Email",
+    password: ""
   }
 
   is_logged_in = (): boolean => {
@@ -56,11 +57,23 @@ export default class NavBar extends Component<{}, Props> {
 
   render() {
     return (
-      <div className='nav-bar'>
-        <h1> Mini App </h1>
+      <div className="nav-bar">
+        <div className="title">
+          <h1>
+            <Link to="/" id="main_title"> Mini App </Link>
+          </h1>
+          {is_logged() ? 
+            <button>
+              <Link to="/list/new">
+                New List
+              </Link>
+            </button>: ""
+          }
+        </div>
 
-        {localStorage.getItem("uid")
-          ? <div id="client">
+        {is_logged()
+          ? 
+          <div id="client">
             { this.state.headers.uid }
             <button onClick={this.logging_out}>
               Log Out
@@ -76,6 +89,7 @@ export default class NavBar extends Component<{}, Props> {
                 onChange={(e: any) => this.setState({ email: e.target.value })} />
               <TextInput
                 placeholder={this.state.password}
+                type="password"
                 width={225}
                 onChange={(e: any) => this.setState({ password: e.target.value })} />
             </div>

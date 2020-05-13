@@ -1,8 +1,9 @@
 import "./style.sass"
-import React, { Component } from "react"
+import api from "../../service/api"
 import { TextInput } from "evergreen-ui"
-import api from "../../service/api";
-import {save_headers} from "../../service/headers_handler";
+import React, { Component } from "react"
+import NavBar from "../../components/NavBar"
+import {save_headers} from "../../service/headers_handler"
 
 interface FormState {
   email: string,
@@ -26,19 +27,22 @@ export default class SignUp extends Component<{}, FormState> {
 
   render() {
     return (
-      <div className="root">
-        <div className="container">
-          <h2 className="title"> Sign Up </h2>
-          <div className="form">
-            <TextInput placeholder="Email" className="formField"
-                       onChange={(e: any) => this.setState({ email: e.target.value})} />
-            <TextInput placeholder="Password" className="formField"
-                       onChange={(e: any) => this.setState({ password: e.target.value})} />
-            <TextInput placeholder="Password Confirmation" className="formField"
-                       onChange={(e: any) => this.setState({ password_confirmation: e.target.value})} />
-            <button className="formButton" onClick={this.sign_up}>
-              Create User !
-            </button>
+      <div>
+        <NavBar />
+        <div className="root">
+          <div className="container">
+            <h2 className="title"> Sign Up </h2>
+            <div className="form">
+              <TextInput placeholder="Email" className="formField"
+                        onChange={(e: any) => this.setState({ email: e.target.value})} />
+              <TextInput placeholder="Password" className="formField" type="password"
+                        onChange={(e: any) => this.setState({ password: e.target.value})} />
+              <TextInput placeholder="Password Confirmation" className="formField" type="password"
+                        onChange={(e: any) => this.setState({ password_confirmation: e.target.value})} />
+              <button className="formButton" onClick={this.sign_up}>
+                Create User !
+              </button>
+            </div>
           </div>
         </div>
       </div>
