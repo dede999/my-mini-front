@@ -1,10 +1,13 @@
 import "./style.sass"
 import React, { Component } from "react"
 import SaveIcon from "@material-ui/icons/Save"
-import { InputBase, Button } from "@material-ui/core"
 import NavBar from "../../components/NavBar"
+import List from "@material-ui/core/List"
+import { ListSubheader, ListItem, ListItemText, InputBase, Divider, Button } from "@material-ui/core"
+import Task from "../../components/Task"
 
-interface Task {
+
+interface ITask {
   title: string,
   is_complete: boolean
 }
@@ -15,7 +18,7 @@ export default class NewList extends Component<any, any> {
     list_description: "",
     list_is_private: false,
     list_tasks: [],
-    task_title: "",
+    task_title: "Task Title ...",
   }
 
   list_attr = () => {
@@ -27,7 +30,9 @@ export default class NewList extends Component<any, any> {
     }
   }
 
-  add_task = () => {
+  add_task = (e: KeyboardEvent) => {
+    console.log(e.key);
+    if (e.key !== "Enter") return
     this.setState({
       list_tasks: [...this.state.list_tasks, {
         title: this.state.task_title,
@@ -44,7 +49,6 @@ export default class NewList extends Component<any, any> {
   }
 
   switcher = (e: any, key: string, value: boolean = true) => {
-    console.log(key)
     this.setState({
       [key] : value
     })
@@ -92,20 +96,29 @@ export default class NewList extends Component<any, any> {
             </Button>
           </form>
 
-          <ul>
-            {list_tasks.map((task: Task) => <li key={task.title}> {task.title} completed:
-              {task.is_complete ? "Completo" : "Incompleto"} </li>)}
-          </ul>
-
-          <button onClick={this.add_task}> Add Tasks </button>
-
-          <label htmlFor="task_title">
-            Task Title
-          </label>
-          <input
-            type="text" name="task_title" id="task_title"
-            onChange={(e: any) => this.set_field(e)} />
-
+          <div className="task-panel">
+            <List subheader={
+              <ListSubheader> Task List <small> {this.state.list_tasks.length} </small> </ListSubheader>
+            }>
+              <ListItem>
+                <ListItemText onKeyDown={(e: any) => this.add_task(e)}>
+                  <InputBase 
+                    placeholder={this.state.task_title}
+                    name="task_title"
+                    onChange={(e: any) => this.set_field(e)} />
+                </ListItemText>
+              </ListItem>
+              <Divider/>
+              { list_tasks.map(
+                (a_task: ITask, i: number) => 
+                <Task 
+                  key={i} 
+                  draft 
+                  task_title={a_task.title}/> 
+                ) 
+              }
+            </List>
+          </div>
         </div>
       </div>
     )
