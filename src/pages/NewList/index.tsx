@@ -40,6 +40,12 @@ export default class NewList extends Component<any, any> {
       }]
     })
   }
+
+  remove_task = (title_task: string) => {
+    const list_of_tasks = this.state.list_tasks.filter((task: ITask) => 
+      task.title !== title_task)
+    this.setState({ list_tasks: list_of_tasks })
+  }
   
   set_field = (e: any) => {
     const { name, value } = e.target
@@ -98,7 +104,7 @@ export default class NewList extends Component<any, any> {
 
           <div className="task-panel">
             <List subheader={
-              <ListSubheader> Task List <small> {this.state.list_tasks.length} </small> </ListSubheader>
+              <ListSubheader> Task List </ListSubheader>
             }>
               <ListItem>
                 <ListItemText onKeyDown={(e: any) => this.add_task(e)}>
@@ -113,8 +119,9 @@ export default class NewList extends Component<any, any> {
                 (a_task: ITask, i: number) => 
                 <Task 
                   key={i} 
-                  draft 
-                  task_title={a_task.title}/> 
+                  draft
+                  task_title={a_task.title}
+                  onDelete={this.remove_task} /> 
                 ) 
               }
             </List>
