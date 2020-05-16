@@ -20,9 +20,9 @@ interface Props {
 export default class NavBar extends Component<{}, Props> {
   state = {
     headers: {
-      uid: localStorage.getItem("uid"),
-      client: localStorage.getItem("client"),
-      accessToken: localStorage.getItem("accessToken"),
+      uid: sessionStorage.getItem("uid"),
+      client: sessionStorage.getItem("client"),
+      accessToken: sessionStorage.getItem("accessToken"),
     },
     email: "Email",
     password: ""
