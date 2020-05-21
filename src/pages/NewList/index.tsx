@@ -1,10 +1,13 @@
 import "./style.sass"
+import api from "../../service/api"
 import React, { Component } from "react"
-import SaveIcon from "@material-ui/icons/Save"
-import NavBar from "../../components/NavBar"
-import List from "@material-ui/core/List"
-import { ListSubheader, ListItem, ListItemText, InputBase, Divider, Button } from "@material-ui/core"
 import Task from "../../components/Task"
+import List from "@material-ui/core/List"
+import NavBar from "../../components/NavBar"
+import SaveIcon from "@material-ui/icons/Save"
+import { ListSubheader, ListItem, ListItemText, 
+  InputBase, Divider, Button } from "@material-ui/core"
+import { get_headers } from "../../service/headers_handler"
 
 
 interface ITask {
@@ -28,6 +31,17 @@ export default class NewList extends Component<any, any> {
       is_private: this.state.list_is_private,
       tasks_attributes: this.state.list_tasks
     }
+  }
+
+  save_list = async () => {
+    const attributes = this.list_attr()
+    await api.post("/lists", {
+      list: attributes
+    }, {
+      headers: get_headers()
+    }).then(() => alert("List Created"))
+    .catch(err => console.error(err))
+    .finally(() => window.location.reload(false))
   }
 
   add_task = (e: KeyboardEvent) => {
@@ -54,9 +68,9 @@ export default class NewList extends Component<any, any> {
     })
   }
 
-  switcher = (e: any, key: string, value: boolean = true) => {
+  switcher = (e: any, value: boolean = true) => {
     this.setState({
-      [key] : value
+      "list_is_private" : value
     })
   }
 
@@ -88,7 +102,7 @@ export default class NewList extends Component<any, any> {
 
             <Button 
               variant="outlined"
-              onClick={(e: any) => this.switcher(e, "list_is_private", !this.state.list_is_private)} 
+              onClick={(e: any) => this.switcher(e, !this.state.list_is_private)} 
               className={this.privacy_status()}>
               { this.privacy_status() }
             </Button>
@@ -97,6 +111,7 @@ export default class NewList extends Component<any, any> {
               size="large"
               className="save_btn"
               startIcon={<SaveIcon />}
+              onClick={this.save_list}
             >
               Save
             </Button>
