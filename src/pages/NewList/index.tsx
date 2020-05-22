@@ -3,11 +3,11 @@ import api from "../../service/api"
 import React, { Component } from "react"
 import Task from "../../components/Task"
 import List from "@material-ui/core/List"
-import NavBar from "../../components/NavBar"
 import SaveIcon from "@material-ui/icons/Save"
 import { ListSubheader, ListItem, ListItemText, 
   InputBase, Divider, Button } from "@material-ui/core"
 import { get_headers } from "../../service/headers_handler"
+import PageWithNavBar from "../../templates/PageWithNavBar";
 
 
 interface ITask {
@@ -68,7 +68,7 @@ export default class NewList extends Component<any, any> {
     })
   }
 
-  switcher = (e: any, value: boolean = true) => {
+  switcher = (value: boolean) => {
     this.setState({
       "list_is_private" : value
     })
@@ -82,27 +82,26 @@ export default class NewList extends Component<any, any> {
     const { list_tasks } = this.state
 
     return (
-      <div>
-        <NavBar />
+      <PageWithNavBar>
         <div className="new_list">
           <h1 style={{ textAlign: "center" }}>
-            <InputBase 
+            <InputBase
               placeholder={this.state.list_title}
               name="list_title"
               className="MuiInputBase-input title"
               onChange={(e: any) => this.set_field(e)} />
           </h1>
           <form>
-            <InputBase 
+            <InputBase
               defaultValue={this.state.list_description}
               name="list_description"
               placeholder="List Description"
               multiline={true}
               onChange={(e: any) => this.set_field(e)} />
 
-            <Button 
+            <Button
               variant="outlined"
-              onClick={(e: any) => this.switcher(e, !this.state.list_is_private)} 
+              onClick={() => this.switcher(!this.state.list_is_private)}
               className={this.privacy_status()}>
               { this.privacy_status() }
             </Button>
@@ -123,7 +122,7 @@ export default class NewList extends Component<any, any> {
             }>
               <ListItem>
                 <ListItemText onKeyDown={(e: any) => this.add_task(e)}>
-                  <InputBase 
+                  <InputBase
                     placeholder={this.state.task_title}
                     name="task_title"
                     onChange={(e: any) => this.set_field(e)} />
@@ -131,18 +130,17 @@ export default class NewList extends Component<any, any> {
               </ListItem>
               <Divider/>
               { list_tasks.map(
-                (a_task: ITask, i: number) => 
-                <Task 
-                  key={i} 
-                  draft
-                  task_title={a_task.title}
-                  onDelete={this.remove_task} /> 
-                ) 
+                (a_task: ITask, i: number) =>
+                  <Task
+                    key={i}
+                    draft
+                    task_title={a_task.title}
+                    onDelete={this.remove_task} />)
               }
             </List>
           </div>
         </div>
-      </div>
+      </PageWithNavBar>
     )
   }
 }

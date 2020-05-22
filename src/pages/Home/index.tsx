@@ -1,15 +1,14 @@
 import React, {Component} from "react"
-// import SignUp from "../../components/SignUp";
-// import {is_logged} from "../../service/headers_handler";
-import Lists from "../../components/Lists";
+import Lists from "../../components/Lists"
+import PageWithNavBar from "../../templates/PageWithNavBar"
 
 export default class Home extends Component<any, any> {
 
   render() {
     return (
-      <div>
-        <Lists />
-      </div>
+      <PageWithNavBar>
+        <Lists/>
+      </PageWithNavBar>
     )
   }
 }

@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import api from "../../service/api";
 import {get_headers} from "../../service/headers_handler";
 import ShowLists from "../ShowLists";
-import NavBar from "../NavBar";
 
 export default class Lists extends Component<{}, any>{
   state = {
@@ -29,7 +28,6 @@ export default class Lists extends Component<{}, any>{
 
   render() {
     return <div>
-      <NavBar />
       <ShowLists lists={this.state.favorites} title="Followed"/>
       <ShowLists lists={this.state.all} title="All Lists" />
     </div>
