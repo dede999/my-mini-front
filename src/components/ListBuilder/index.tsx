@@ -4,6 +4,7 @@ import React, { Component } from "react"
 import Task from "../Task"
 import List from "@material-ui/core/List"
 import SaveIcon from "@material-ui/icons/Save"
+import DeleteIcon from "@material-ui/icons/Delete"
 import { ListSubheader, ListItem, ListItemText, 
   InputBase, Divider, Button } from "@material-ui/core"
 import { get_headers } from "../../service/headers_handler"
@@ -15,7 +16,8 @@ interface ITask {
 }
 
 interface IProps {
-  id?: number
+  id?: number,
+  history?: any
 }
 
 export default class ListBuilder extends Component<IProps, any> {
@@ -61,6 +63,10 @@ export default class ListBuilder extends Component<IProps, any> {
       headers: get_headers()
     }).then(resp => {
       this.setState({ list_tasks: resp.data })
+    }).catch(err => {
+      if(err.response.status === 404) {
+        this.props.history.push("/")
+      }
     })
   }
 
@@ -73,7 +79,21 @@ export default class ListBuilder extends Component<IProps, any> {
     }
   }
 
-  save_list = async () => {
+  update_list = async () => {
+    const { id } = this.props
+    const { list_title, list_description, list_is_private } = this.state
+    await api.put(`lists/${id}`, {
+      title: list_title,
+      description: list_description,
+      is_private: list_is_private
+    }, {
+      headers: get_headers()
+    })
+    .then(resp => alert(`${resp.data}`))
+    .catch(err => console.log(err))
+  }
+
+  create_list = async () => {
     const attributes = this.list_attr()
     await api.post("/lists", {
       list: attributes
@@ -82,6 +102,20 @@ export default class ListBuilder extends Component<IProps, any> {
     }).then(() => alert("List Created"))
     .catch(err => console.error(err))
     .finally(() => window.location.reload(false))
+  }
+
+  save_list = async () => {
+    this.state.creation_mode ? this.create_list() : this.update_list()
+  }
+
+  delete_list = async () => {
+    const { id } = this.props
+    await api.delete(`lists/${id}`, {
+      headers: get_headers()
+    }).then(() => {
+      alert(`List #${id} has been deleted`)
+      this.props.history.push("/")
+    })
   }
 
   add_task = (e: KeyboardEvent) => {
@@ -119,7 +153,8 @@ export default class ListBuilder extends Component<IProps, any> {
   }
 
   render() {
-    const { list_tasks } = this.state
+    const { id } = this.props
+    const { list_tasks, creation_mode } = this.state
 
     return (
       <>
@@ -179,6 +214,20 @@ export default class ListBuilder extends Component<IProps, any> {
                     onDelete={this.remove_task} />)
               }
             </List>
+          </div>
+          
+          <div className="bottom">
+            { (!!id && !creation_mode)
+              ? <Button 
+                  size="large"
+                  variant="outlined"
+                  className="del_btn"
+                  startIcon={<DeleteIcon/>}
+                  onClick={this.delete_list}>
+                    Delete
+                </Button>
+              : <></> 
+            }
           </div>
         </div>
       </>

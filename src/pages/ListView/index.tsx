@@ -9,7 +9,9 @@ export default class NewList extends Component<any, any> {
 
     return (
       <PageWithNavBar>
-        <ListBuilder id={params.list_id} />
+        <ListBuilder 
+          id={params.list_id} 
+          history={this.props.history} />
       </PageWithNavBar>
     )
   }
