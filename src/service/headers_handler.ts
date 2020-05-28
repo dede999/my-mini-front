@@ -1,29 +1,31 @@
+import { delete_client } from "./client_handler"
 
 export const save_headers = (response: any) => {
-  sessionStorage.setItem("accessToken", response["access-token"])
+  localStorage.setItem("accessToken", response["access-token"])
   const { client, uid } = response
-  sessionStorage.setItem("uid", uid)
-  sessionStorage.setItem("client", client)
+  localStorage.setItem("uid", uid)
+  localStorage.setItem("client", client)
 }
 
 export const clear_headers = () => {
-  sessionStorage.removeItem("uid")
-  sessionStorage.removeItem("client")
-  sessionStorage.removeItem("accessToken")
+  localStorage.removeItem("uid")
+  localStorage.removeItem("client")
+  localStorage.removeItem("accessToken")
+  delete_client()
 }
 
 export const get_headers = () => {
   return {
-    uid: sessionStorage.getItem("uid"),
-    client: sessionStorage.getItem("client"),
-    "access-token": sessionStorage.getItem("accessToken")
+    uid: localStorage.getItem("uid"),
+    client: localStorage.getItem("client"),
+    "access-token": localStorage.getItem("accessToken")
   }
 }
 
 export const set_access_token = (token: string) => {
-  sessionStorage.setItem("accessToken", token)
+  localStorage.setItem("accessToken", token)
 }
 
 export const is_logged = () => {
-  return !!sessionStorage.getItem("uid")
+  return !!localStorage.getItem("uid")
 }

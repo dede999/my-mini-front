@@ -2,7 +2,8 @@ import React, {Component, ReactNode} from "react"
 import NavBar from "../../components/NavBar";
 
 interface IProps {
-  children?: ReactNode
+  children?: ReactNode,
+  history?: any
 }
 
 export default class PageWithNavBar extends Component<IProps, any>{
@@ -11,7 +12,7 @@ export default class PageWithNavBar extends Component<IProps, any>{
 
     return (
       <>
-       <NavBar/>
+       <NavBar history={this.props.history}/>
         { children }
       </>
     );

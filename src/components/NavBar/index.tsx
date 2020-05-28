@@ -4,6 +4,7 @@ import React, {Component} from "react"
 import { Link } from 'react-router-dom'
 import { TextInput } from "evergreen-ui"
 import {clear_headers, save_headers, is_logged} from '../../service/headers_handler'
+import { fetch_client } from '../../service/client_handler'
 
 type AuthHeaders = {
   uid: string | null,
@@ -11,21 +12,31 @@ type AuthHeaders = {
   accessToken: string | null
 }
 
-interface Props {
+interface IState {
   email: string,
   password: string,
-  headers: AuthHeaders
+  headers: AuthHeaders,
+  client_name: string | null
 }
 
-export default class NavBar extends Component<{}, Props> {
+export default class NavBar extends Component<{ history: any }, IState> {
   state = {
     headers: {
-      uid: sessionStorage.getItem("uid"),
-      client: sessionStorage.getItem("client"),
-      accessToken: sessionStorage.getItem("accessToken"),
+      uid: localStorage.getItem("uid"),
+      client: localStorage.getItem("client"),
+      accessToken: localStorage.getItem("accessToken"),
     },
     email: "Email",
-    password: ""
+    password: "",
+    client_name: ""
+  }
+
+  componentDidMount() {
+    fetch_client()
+      .then(() => this.setState({
+        client_name: sessionStorage.getItem("nickname")
+      }))
+      .catch(() => this.props.history.push("/"))
   }
 
   is_logged_in = (): boolean => {
@@ -74,7 +85,9 @@ export default class NavBar extends Component<{}, Props> {
         {is_logged()
           ? 
           <div id="client">
-            { this.state.headers.uid }
+            <div className="nick">
+              { this.state.client_name }
+            </div>
             <button onClick={this.logging_out}>
               Log Out
             </button>

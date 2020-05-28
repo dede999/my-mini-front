@@ -6,7 +6,7 @@ export default class Home extends Component<any, any> {
 
   render() {
     return (
-      <PageWithNavBar>
+      <PageWithNavBar history={this.props.history}>
         <Lists/>
       </PageWithNavBar>
     )
